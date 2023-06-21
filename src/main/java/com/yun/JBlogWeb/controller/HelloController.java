@@ -7,6 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HelloController {
 
+	@GetMapping("/")
+	public String index() {
+		return "index";
+	}
+
 	@GetMapping("/jsp")
 	public String jsp(Model model) {
 		model.addAttribute("username", "모르는 사용자");

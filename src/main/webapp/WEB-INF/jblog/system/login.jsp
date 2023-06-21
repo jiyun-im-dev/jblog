@@ -11,15 +11,12 @@
       <label for="password">Password:</label>
       <input type="password" class="form-control" id="password" placeholder="Enter password" name="pswd">
     </div>
-    <div class="mb-3 mt-3">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
-    </div>
   </form>
 
-  <button id="btn-save" class="btn btn-primary">회원가입</button>
+  <button id="btn-login" class="btn btn-primary">로그인</button>
 </div>
 
-<script src="/js/user.js"></script>
-
+<script src="/js/login.js"></script>
+<%-- static 폴더가 리소스로 등록되어 있어서 이렇게만 써도 작동하는 듯..?--%>
+<%-- "/src/main/resources/static/js/login.js" 이것도 될 듯--%>
 <%@ include file="../layout/footer.jsp" %>
