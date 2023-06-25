@@ -42,4 +42,11 @@ public class LoginController {
 		}
 	}
 
+	// 브라우저와 연결된 세션을 강제 종료할 때 로그아웃 기능 실행
+	@GetMapping("/auth/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/"; // 메인 페이지로 리다이렉트
+	}
+
 }
