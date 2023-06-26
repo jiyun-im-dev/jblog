@@ -9,6 +9,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+	// 쿼리 메서드
 	// SELECT * FROM users WHERE username = ?1;
 	Optional<User> findByUsername(String username);
 
