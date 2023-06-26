@@ -5,6 +5,9 @@ import com.yun.JBlogWeb.domain.User;
 import com.yun.JBlogWeb.dto.ResponseDto;
 import com.yun.JBlogWeb.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,8 +41,10 @@ public class PostController {
 	}
 
 	@GetMapping({"", "/"})
-	public String getPostList(Model model) {
-		model.addAttribute("postList", postService.getPostList());
+	public String getPostList(Model model, HttpSession session, @PageableDefault(size = 3, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+		// 가장 최근에 등록된 포스트부터 출력
+		model.addAttribute("postList", postService.getPostList(pageable));
+		model.addAttribute("username", session.getAttribute("principal").toString());
 		return "index";
 	}
 

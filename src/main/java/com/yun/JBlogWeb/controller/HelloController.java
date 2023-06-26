@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HelloController {
 
 	@GetMapping("/")
-	public String index() {
+	public String index(Model model) {
+		model.addAttribute("username", "Hello 사용자");
 		return "index";
 	}
 
