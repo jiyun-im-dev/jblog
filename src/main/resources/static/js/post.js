@@ -12,7 +12,7 @@ let postObject = {
 
     insertPost: function () {
         alert("포스트 등록 요청됨");
-        // 사용자가 입력한 값 추출
+        // 사용자가 입력한 값을 추출해서 포스트 객체 생성
         let post = {
             title: $("#title").val(), // id가 title인 input의 값을 가져옴
             content: $("#content").val()
