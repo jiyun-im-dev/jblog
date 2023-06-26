@@ -19,8 +19,12 @@
         </div>
 
         <ul class="pagination justify-content-between">
-            <li class="page-item"><a class="page-link" href="?page=${postList.number - 1}">이전 페이지</a></li>
-            <li class="page-item"><a class="page-link" href="?page=${postList.number + 1}">다음 페이지</a></li>
+            <li class="page-item <c:if test="${postList.first}">disabled</c:if>">
+                <a class="page-link" href="?page=${postList.number - 1}">이전 페이지</a>
+            </li>
+            <li class="page-item <c:if test="${postList.last}">disabled</c:if>">
+                <a class="page-link" href="?page=${postList.number + 1}">다음 페이지</a>
+            </li>
         </ul>
     </c:if>
 </div>
