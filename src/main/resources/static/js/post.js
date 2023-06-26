@@ -20,8 +20,8 @@ let postObject = {
         // Ajax를 이용한 비동기 호출
         $.ajax({
             type: "POST", // 요청 방식
-            url: "/post", // 요청 경로
-            data: JSON.stringify(user), // user 객체를 JSON 형식으로 변환
+            url: "/post/insertPost", // 요청 경로
+            data: JSON.stringify(post), // post 객체를 JSON 형식으로 변환
             contentType: "application/json; charset=utf-8"
         }).done(function (response) {
             let message = response["data"]; // response 파라미터의 data 키에 해당하는 값?

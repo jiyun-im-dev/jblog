@@ -24,6 +24,6 @@
     });
 </script>
 
-<script src="/src/main/resources/static/js/post.js"></script>
+<script src="/js/post.js"></script>
 
 <%@ include file="../layout/footer.jsp" %>
