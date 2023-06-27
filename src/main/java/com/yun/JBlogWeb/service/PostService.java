@@ -25,4 +25,9 @@ public class PostService {
 		return postRepository.findAll(pageable);
 	}
 
+	@Transactional(readOnly = true)
+	public Post getPost(int id) {
+		return postRepository.findById(id).get();
+	}
+
 }

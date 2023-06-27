@@ -11,10 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -46,6 +43,12 @@ public class PostController {
 		model.addAttribute("postList", postService.getPostList(pageable));
 		model.addAttribute("username", session.getAttribute("principal").toString());
 		return "index";
+	}
+
+	@GetMapping("/post/{id}")
+	public String getPost(@PathVariable int id, Model model) {
+		model.addAttribute("post", postService.getPost(id));
+		return "post/getPost";
 	}
 
 }

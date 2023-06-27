@@ -13,7 +13,7 @@
             <c:forEach var="post" items="${postList.content}">
                 <div class="card-body">
                     <h4 class="card-title">${post.title}</h4>
-                    <a href="#" class="btn btn-secondary">상세보기</a>
+                    <a href="/post/${post.id}" class="btn btn-secondary">상세보기</a>
                 </div>
             </c:forEach>
         </div>
