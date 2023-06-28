@@ -51,4 +51,10 @@ public class PostController {
 		return "post/getPost";
 	}
 
+	@GetMapping("/post/updatePost/{id}")
+	public String updatePost(@PathVariable int id, Model model) {
+		model.addAttribute("post", postService.getPost(id));
+		return "post/updatePost";
+	}
+
 }
