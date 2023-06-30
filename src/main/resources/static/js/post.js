@@ -32,6 +32,29 @@ let postObject = {
             alert("에러 발생: " + error)
         });
     },
+
+    updatePost: function () {
+        alert("포스트 수정 요청됨");
+        let post = {
+            id: $("#id").val(),
+            title: $("#title").val(),
+            content: $("#content").val()
+        }
+
+        $.ajax({
+            type: URL,
+            url: "/post",
+            data: JSON.stringify(post),
+            contentType: "application/json; charset=utf-8"
+        }).done(function (response) {
+            let message = response["data"];
+            alert(message);
+            location = "/";
+        }).fail(function (error) {
+            let message = error["data"];
+            alert("문제 발생 " + message);
+        });
+    },
 }
 
 // postObject 객체의 init() 함수 호출
