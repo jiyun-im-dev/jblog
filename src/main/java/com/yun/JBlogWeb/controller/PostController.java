@@ -57,4 +57,10 @@ public class PostController {
 		return "post/updatePost";
 	}
 
+	@PutMapping("/post")
+	public @ResponseBody ResponseDto<?> updatePost(@RequestBody Post post) {
+		postService.updatePost(post);
+		return new ResponseDto<>(HttpStatus.OK.value(), post.getId() + "번 포스트를 수정했습니다.");
+	}
+
 }
