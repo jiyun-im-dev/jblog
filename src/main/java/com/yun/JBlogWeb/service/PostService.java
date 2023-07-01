@@ -30,4 +30,11 @@ public class PostService {
 		return postRepository.findById(id).get();
 	}
 
+	@Transactional
+	public void updatePost(Post post) {
+		Post findPost = postRepository.findById(post.getId()).get();
+		findPost.setTitle(post.getTitle());
+		findPost.setContent(post.getContent());
+	}
+
 }
