@@ -37,4 +37,9 @@ public class PostService {
 		findPost.setContent(post.getContent());
 	}
 
+	@Transactional
+	public void deletePost(int id) {
+		postRepository.deleteById(id);
+	}
+
 }

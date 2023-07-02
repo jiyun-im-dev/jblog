@@ -63,4 +63,10 @@ public class PostController {
 		return new ResponseDto<>(HttpStatus.OK.value(), post.getId() + "번 포스트를 수정했습니다.");
 	}
 
+	@DeleteMapping("/post/{id}")
+	public @ResponseBody ResponseDto<?> deletePost(@PathVariable int id) {
+		postService.deletePost(id);
+		return new ResponseDto<>(HttpStatus.OK.value(), id + "번 포스트를 삭제했습니다.");
+	}
+
 }
