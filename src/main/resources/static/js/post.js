@@ -8,6 +8,12 @@ let postObject = {
         $("#btn-insert").on("click", () => {
             _this.insertPost();
         });
+        $("#btn-update").on("click", () => {
+            _this.updatePost();
+        });
+        $("btn-delete").on("click", () => {
+            _this.deletePost();
+        });
     },
 
     insertPost: function () {
@@ -55,6 +61,24 @@ let postObject = {
             alert("문제 발생 " + message);
         });
     },
+
+    deletePost: function () {
+        alert("포스트 삭제 요청됨");
+        let id = $("#id").text();
+
+        $.ajax({
+            type: "DELETE",
+            url: "/post/" + id,
+            contentType: "application/jspn; charset=utf-8"
+        }).done(function (response) {
+            let message = response["data"];
+            alert(message);
+            location = "/";
+        }).fail(function (error) {
+            let message = error["data"];
+            alert("문제 발생: " + message);
+        });
+    }
 }
 
 // postObject 객체의 init() 함수 호출
