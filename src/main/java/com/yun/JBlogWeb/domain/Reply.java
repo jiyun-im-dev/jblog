@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.annotations.Many;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -32,6 +30,7 @@ public class Reply {
 	@JoinColumn(name = "userid")
 	private User user;                          // 연관된 사용자
 
+	// reply 테이블이 외래키(postid)를 가짐 => 연관 관계 주인
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "postid")
 	private Post post;                          // 연관된 포스트
