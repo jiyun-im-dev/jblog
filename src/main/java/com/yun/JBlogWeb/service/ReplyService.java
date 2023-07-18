@@ -5,7 +5,6 @@ import com.yun.JBlogWeb.domain.Reply;
 import com.yun.JBlogWeb.domain.User;
 import com.yun.JBlogWeb.persistence.PostRepository;
 import com.yun.JBlogWeb.persistence.ReplyRepository;
-import com.yun.JBlogWeb.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
