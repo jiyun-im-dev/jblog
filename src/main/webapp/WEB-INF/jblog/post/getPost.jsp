@@ -27,6 +27,29 @@
 
     <br><br>
 
+    <c:if test="${!empty post.replyList}">
+        <div class="container mt-3">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th width="80%">내용</th>
+                    <th width="10%">작성자</th>
+                    <th width="10%">삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="reply" items="${post.replyList}">
+                    <tr>
+                        <td>${reply.content}</td>
+                        <td>${reply.user.username}</td>
+                        <td><button>삭제</button></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </c:if>
+
     <div class="container mt-3">
         <input type="hidden" id="postId" value="${post.id}">
         <table class="table">
