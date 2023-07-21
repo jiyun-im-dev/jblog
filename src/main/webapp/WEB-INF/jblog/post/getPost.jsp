@@ -42,7 +42,7 @@
                     <tr>
                         <td>${reply.content}</td>
                         <td>${reply.user.username}</td>
-                        <td><button>삭제</button></td>
+                        <td><button onclick="replyObject.deleteReply(${post.id}, ${reply.id})">삭제</button></td>
                     </tr>
                 </c:forEach>
                 </tbody>
