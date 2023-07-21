@@ -22,7 +22,20 @@ let replyObject = {
             alert(message);
             location = "/post/" + id;
         });
-    }
+    },
+
+    deleteReply: function (postId, replyId) {
+        alert("댓글 삭제 요청됨");
+
+        $.ajax({
+            type: "DELETE",
+            url: "/reply/" + replyId
+        }).done(function (response) {
+            let message = response["data"];
+            alert(message);
+            location = "/post/" + postId;
+        });
+    },
 }
 
 replyObject.init();
