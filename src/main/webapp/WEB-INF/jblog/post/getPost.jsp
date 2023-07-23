@@ -3,7 +3,7 @@
 
 <div class="container border">
     <div>
-        <h3>#{post.title}</h3>
+        <h3>${post.title}</h3>
     </div>
     <br>
     <div>
@@ -34,7 +34,9 @@
                 <tr>
                     <th width="80%">내용</th>
                     <th width="10%">작성자</th>
-                    <th width="10%">삭제</th>
+                    <c:if test="${reply.user.username != null && reply.user.username == principal.username}">
+                        <th width="10%">삭제</th>
+                    </c:if>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,7 +44,12 @@
                     <tr>
                         <td>${reply.content}</td>
                         <td>${reply.user.username}</td>
-                        <td><button onclick="replyObject.deleteReply(${post.id}, ${reply.id})">삭제</button></td>
+                        <c:if test="${reply.user.username != null && reply.user.username == principal.username}">
+                            <td>
+                                <button onclick="replyObject.deleteReply(${post.id}, ${reply.id})">삭제</button>
+                            </td>
+                        </c:if>
+
                     </tr>
                 </c:forEach>
                 </tbody>
