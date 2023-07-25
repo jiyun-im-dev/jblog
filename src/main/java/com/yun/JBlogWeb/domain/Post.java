@@ -38,7 +38,7 @@ public class Post {
 	@JoinColumn(name = "userid") // post 테이블의 userid 컬럼(외래키로 사용)으로 조인
 	private User user;
 
-	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER) // mappedBy 속성 사용 => 연관 관계의 주인이 아님
+	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) // mappedBy 속성 사용 => 연관 관계의 주인이 아님
 	@OrderBy("id desc")
 	private List<Reply> replyList;
 
