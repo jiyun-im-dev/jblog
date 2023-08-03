@@ -25,8 +25,19 @@ let userObject = {
             data: JSON.stringify(user), // user 객체를 JSON 형식으로 변환
             contentType: "application/json; charset=utf-8"
         }).done(function (response) {
-            console.log(response);
-            location = "/";
+            let status = response["status"];
+            if (status == 200) {
+                let message = response["data"];
+                alert(message);
+                location = "/";
+            } else {
+                let warn = "";
+                let errors = response["data"];
+                if (errors.password != null) warn = warn + errors.password + "\n";
+                if (errors.username != null) warn = warn + errors.username + "\n";
+                if (errors.email != null) warn = warn + errors.email;
+                alert(warn);
+            }
         }).fail(function (error) {
             alert("에러 발생: " + error)
         });
