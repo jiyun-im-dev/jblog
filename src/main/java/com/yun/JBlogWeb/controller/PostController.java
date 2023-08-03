@@ -2,8 +2,10 @@ package com.yun.JBlogWeb.controller;
 
 import com.yun.JBlogWeb.domain.Post;
 import com.yun.JBlogWeb.domain.User;
+import com.yun.JBlogWeb.dto.PostDto;
 import com.yun.JBlogWeb.dto.ResponseDto;
 import com.yun.JBlogWeb.service.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -11,9 +13,14 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class PostController {
@@ -21,13 +28,28 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 
+	@Autowired
+	private ModelMapper modelMapper;
+
 	@GetMapping("/post/insertPost")
 	public String insertPost() {
 		return "post/insertPost";
 	}
 
 	@PostMapping("/post/insertPost")
-	public @ResponseBody ResponseDto<?> insertPost(@RequestBody Post post, HttpSession session) {
+	public @ResponseBody ResponseDto<?> insertPost(
+			@Valid @RequestBody PostDto postDto, BindingResult bindingResult, HttpSession session) {
+		if (bindingResult.hasErrors()) {
+			// 에러가 하나라도 있다면 에러 메시지를 Map에 등록
+			Map<String, String> errorMap = new HashMap<>();
+			for (FieldError error : bindingResult.getFieldErrors()) {
+				errorMap.put(error.getField(), error.getDefaultMessage());
+			}
+			return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), errorMap);
+		}
+
+		Post post = modelMapper.map(postDto, Post.class);
+
 		// Post 객체를 영속화(리포지토리에 저장)하기 전 연관된 User 엔티티 설정
 		User principal = (User) session.getAttribute("principal");
 		post.setUser(principal);
