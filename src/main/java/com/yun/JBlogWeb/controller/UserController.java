@@ -36,16 +36,7 @@ public class UserController {
 	// 어떤 타입의 데이터가 반환될지 특정할 수 없으므로 ResponseDto<String>이 아님
 	@PostMapping("/auth/insertUser")
 	public @ResponseBody ResponseDto<?> insertUser(@Valid @RequestBody UserDto userDto, BindingResult bindingResult) {
-		// UserDto 객체에 대한 유효성 검사
-		if (bindingResult.hasErrors()) {
-			// 에러가 하나라도 있다면 에러 메시지를 Map에 등록
-			Map<String, String> errorMap = new HashMap<>();
-			for (FieldError error : bindingResult.getFieldErrors()) {
-				errorMap.put(error.getField(), error.getDefaultMessage());
-			}
-			return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), errorMap);
-		}
-
+		// UserDto -> User 객체로 변환
 		User user = modelMapper.map(userDto, User.class);
 		User findUser = userService.getUser(user.getUsername());
 

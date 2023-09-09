@@ -39,15 +39,7 @@ public class PostController {
 	@PostMapping("/post/insertPost")
 	public @ResponseBody ResponseDto<?> insertPost(
 			@Valid @RequestBody PostDto postDto, BindingResult bindingResult, HttpSession session) {
-		if (bindingResult.hasErrors()) {
-			// 에러가 하나라도 있다면 에러 메시지를 Map에 등록
-			Map<String, String> errorMap = new HashMap<>();
-			for (FieldError error : bindingResult.getFieldErrors()) {
-				errorMap.put(error.getField(), error.getDefaultMessage());
-			}
-			return new ResponseDto<>(HttpStatus.BAD_REQUEST.value(), errorMap);
-		}
-
+		// PostDto -> Post 객체로 변환
 		Post post = modelMapper.map(postDto, Post.class);
 
 		// Post 객체를 영속화(리포지토리에 저장)하기 전 연관된 User 엔티티 설정
