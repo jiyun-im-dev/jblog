@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; UTF-8" pageEncoding="utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<!-- 로그인 인증에 성공한 브라우저만 접근할 수 있는 영역 -->
+<sec:authorize access="isAuthenticated()"/>
+<!-- principal은 로그인 성공한 사용자(User) 객체에 접근할 수 있는 변수이다. -->
+<sec:authentication var="principal" property="principal"/>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +29,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mynavbar">
-                <c:if test="${sessionScope.principal == null}">
+                <c:if test="${principal == null}">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="/auth/login">로그인</a>
@@ -32,7 +39,7 @@
                         </li>
                     </ul>
                 </c:if>
-                <c:if test="${sessionScope.principal != null}">
+                <c:if test="${principal != null}">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="/user/updateUser">회원 상세</a>
