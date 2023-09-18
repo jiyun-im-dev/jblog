@@ -14,10 +14,15 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
 		// 인증 없이 접근을 허용하는 경로
 		http.authorizeRequests().antMatchers("/webjars/**", "/js/**", "/image/**", "/", "/auth/**")
 				.permitAll();
-
 		// 나머지 경로는 인증 필요
 		http.authorizeRequests().anyRequest().authenticated();
-		// 기본 로그인 화면 제공
-		http.formLogin();
+
+		// CSRF 토큰을 받지 않음
+		http.csrf().disable();
+		// 사용자 정의 로그인 화면 제공
+		http.formLogin().loginPage("/auth/securitylogin");
+
+		// 로그아웃 설정
+		http.logout().logoutUrl("/auth/logout").logoutSuccessUrl("/");
 	}
 }
