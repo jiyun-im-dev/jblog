@@ -2,18 +2,27 @@ package com.yun.JBlogWeb.config;
 
 import com.yun.JBlogWeb.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+	// 사용자가 입력한 username으로 사용자 인증하는 객체
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	// 사용자가 입력한 username으로 User 객체를 검색하고 password를 비교한다
 	@Override
