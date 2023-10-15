@@ -34,14 +34,13 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	@Override
-	public String getPassword() {
-		// noop: 암호화하지 않기 위한 설정
-		return "{noop}" + user.getPassword();
+	public String getUsername() {
+		return user.getUsername();
 	}
 
 	@Override
-	public String getUsername() {
-		return user.getUsername();
+	public String getPassword() {
+		return user.getPassword();
 	}
 
 	@Override
