@@ -3,10 +3,12 @@ let userObject = {
     // init() 함수 선언
     init: function () {
         let _this = this;
-
         // #btn-save 버튼에 click 이벤트가 발생하면 insertUser() 함수 호출
         $("#btn-save").on("click", () => {
             _this.insertUser();
+        });
+        $("#btn-update").on("click", () => {
+            _this.updateUser();
         });
     },
 
@@ -42,6 +44,29 @@ let userObject = {
             alert("에러 발생: " + error)
         });
     },
+
+    updateUser: function () {
+        alert("회원 정보 수정 요청");
+        let user = {
+            id: $("#id").val(),
+            username: $("#username").val(),
+            password: $("#password").val()
+        }
+        $.ajax({
+            type: "PUT",
+            url: "/user",
+            data: JSON.stringify(user),
+            contentType: "application/json; charset=utf-8",
+        }).done(function (response) {
+            let message = response["data"];
+            alert(message);
+            location = "/";
+        }).fail(function (error) {
+            let message = error["data"];
+            alert("문제 발생: " + message);
+        });
+    },
+
 }
 
 // userObject 객체의 init() 함수 호출
