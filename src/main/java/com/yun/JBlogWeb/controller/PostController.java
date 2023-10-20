@@ -4,6 +4,7 @@ import com.yun.JBlogWeb.domain.Post;
 import com.yun.JBlogWeb.domain.User;
 import com.yun.JBlogWeb.dto.PostDto;
 import com.yun.JBlogWeb.dto.ResponseDto;
+import com.yun.JBlogWeb.security.UserDetailsImpl;
 import com.yun.JBlogWeb.service.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,13 +41,13 @@ public class PostController {
 
 	@PostMapping("/post/insertPost")
 	public @ResponseBody ResponseDto<?> insertPost(
-			@Valid @RequestBody PostDto postDto, BindingResult bindingResult, HttpSession session) {
+			@Valid @RequestBody PostDto postDto, BindingResult bindingResult, @AuthenticationPrincipal UserDetailsImpl principal) {
 		// PostDto -> Post 객체로 변환
 		Post post = modelMapper.map(postDto, Post.class);
 
 		// Post 객체를 영속화(리포지토리에 저장)하기 전 연관된 User 엔티티 설정
-		User principal = (User) session.getAttribute("principal");
-		post.setUser(principal);
+		post.setUser(principal.getUser());
+		post.setCnt(0);
 
 		postService.insertPost(post);
 

@@ -3,10 +3,12 @@ package com.yun.JBlogWeb.controller;
 import com.yun.JBlogWeb.domain.User;
 import com.yun.JBlogWeb.dto.ResponseDto;
 import com.yun.JBlogWeb.dto.UserDto;
+import com.yun.JBlogWeb.security.UserDetailsImpl;
 import com.yun.JBlogWeb.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -53,8 +55,9 @@ public class UserController {
 	}
 
 	@PutMapping("/user")
-	public @ResponseBody ResponseDto<?> updateUser(@RequestBody User user) {
-		userService.updateUser(user);
+	public @ResponseBody ResponseDto<?> updateUser(@RequestBody User user, @AuthenticationPrincipal UserDetailsImpl principal) {
+		// 회원 정보 수정과 동시에 세션 갱신
+		principal.setUser(userService.updateUser(user));
 		return new ResponseDto<>(HttpStatus.OK.value(), user.getUsername() + " 수정 완료");
 	}
 
