@@ -1,5 +1,6 @@
 package com.yun.JBlogWeb.service;
 
+import com.google.gson.Gson;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 @Service
 public class KakaoLoginService {
@@ -35,7 +38,13 @@ public class KakaoLoginService {
 				HttpMethod.POST, // 요청 방식
 				requestEntity,   // 요청 헤더와 바디
 				String.class);   // 응답 받을 타입
-		return responseEntity.getBody();
+		// HTTP 응답 본문(body) 정보 반환
+		String jsonData = responseEntity.getBody();
+		// JSON 데이터에서 액세스 토큰 정보만 추출
+		Gson gsonObj = new Gson();
+		Map<?, ?> data = gsonObj.fromJson(jsonData, Map.class);
+
+		return (String) data.get("access_token");
 	}
 
 }
