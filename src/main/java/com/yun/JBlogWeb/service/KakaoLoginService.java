@@ -47,4 +47,20 @@ public class KakaoLoginService {
 		return (String) data.get("access_token");
 	}
 
+	public String getUserInfo(String accessToken) {
+		// HttpHeader 생성
+		HttpHeaders header = new HttpHeaders();
+		header.add("Authorization", "Bearer " + accessToken);
+		header.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		// HttpHeader와 HttpBody를 하나의 객체에 담기(body 정보는 생략 가능)
+		HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(header);
+		//RestTemplate을 이용하면 브라우저 없이 HTTP 요청 처리 가능
+		RestTemplate restTemplate = new RestTemplate();
+		// HTTP 요청을 POST(GET) 방식으로 실행 -> 응답이 문자열로 들어옴
+		ResponseEntity<String> responseEntity = restTemplate.exchange(
+				"https://kapi.kakao.com/v2/user/me", HttpMethod.POST, requestEntity, String.class);
+		// 카카오 인증 서버가 반환한 사용자 정보
+		return responseEntity.getBody();
+	}
+
 }
