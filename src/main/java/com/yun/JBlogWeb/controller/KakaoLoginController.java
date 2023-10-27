@@ -14,11 +14,11 @@ public class KakaoLoginController {
 
 	@GetMapping("/oauth/kakao")
 	public @ResponseBody String kakaoCallback(String code) {
-		// 인증 서버로부터 받은 CODE를 이용해 액세스 토큰 획득
+		// 1. 인증 서버로부터 받은 CODE를 이용해 액세스 토큰 획득
 		String accessToken = kakaoLoginService.getAccessToken(code);
-		// 응답을 콘솔과 브라우저에서 출력
-		System.out.println(accessToken);
-		return accessToken;
+		// 2. 액세스 토큰을 이용하여 사용자 정보 획득
+		String userInfo = kakaoLoginService.getUserInfo(accessToken);
+		return userInfo;
 	}
 
 }
