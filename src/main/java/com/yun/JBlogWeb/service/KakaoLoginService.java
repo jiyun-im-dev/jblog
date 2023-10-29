@@ -1,6 +1,9 @@
 package com.yun.JBlogWeb.service;
 
 import com.google.gson.Gson;
+import com.yun.JBlogWeb.domain.Role;
+import com.yun.JBlogWeb.domain.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,6 +17,9 @@ import java.util.Map;
 
 @Service
 public class KakaoLoginService {
+
+	@Value("${kakao.default.password}")
+	private String kakaoPassword;
 
 	// 카카오 인증 서버로부터 실시간으로 CODE를 받아온다
 	public String getAccessToken(String code) {
@@ -47,7 +53,7 @@ public class KakaoLoginService {
 		return (String) data.get("access_token");
 	}
 
-	public String getUserInfo(String accessToken) {
+	public User getUserInfo(String accessToken) {
 		// HttpHeader 생성
 		HttpHeaders header = new HttpHeaders();
 		header.add("Authorization", "Bearer " + accessToken);
@@ -60,7 +66,20 @@ public class KakaoLoginService {
 		ResponseEntity<String> responseEntity = restTemplate.exchange(
 				"https://kapi.kakao.com/v2/user/me", HttpMethod.POST, requestEntity, String.class);
 		// 카카오 인증 서버가 반환한 사용자 정보
-		return responseEntity.getBody();
+		String userInfo = responseEntity.getBody();
+		// JSON 데이터에서 추출한 정보로 User 객체 설정
+		Gson gsonObj = new Gson();
+		Map<?, ?> data = gsonObj.fromJson(userInfo, Map.class); // JSON 객체(키-값 쌍)이라서 Map?
+		Double id = (Double) data.get("id"); // 카카오 로그인 실행 후 JSON 응답 데이터를 확인하며 입력하자
+		String nickname = (String) ((Map<?, ?>) data.get("properties")).get("nickname");
+		String email = (String) ((Map<?, ?>) data.get("kakao_account")).get("email");
+
+		User user = new User();
+		user.setUsername(email);
+		user.setPassword(kakaoPassword);
+		user.setEmail(email);
+		user.setRole(Role.USER);
+		return user;
 	}
 
 }
