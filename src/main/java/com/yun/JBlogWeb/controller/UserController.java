@@ -1,5 +1,6 @@
 package com.yun.JBlogWeb.controller;
 
+import com.yun.JBlogWeb.domain.OAuthType;
 import com.yun.JBlogWeb.domain.User;
 import com.yun.JBlogWeb.dto.ResponseDto;
 import com.yun.JBlogWeb.dto.UserDto;
@@ -7,6 +8,7 @@ import com.yun.JBlogWeb.security.UserDetailsImpl;
 import com.yun.JBlogWeb.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,9 @@ public class UserController {
 
 	@Autowired
 	private ModelMapper modelMapper;
+
+	@Value("${kakao.default.password}")
+	private String kakaoPassword;
 
 	@GetMapping("/auth/login")
 	public String login() {
@@ -56,6 +61,11 @@ public class UserController {
 
 	@PutMapping("/user")
 	public @ResponseBody ResponseDto<?> updateUser(@RequestBody User user, @AuthenticationPrincipal UserDetailsImpl principal) {
+		// 회원 정보 수정 전, 로그인한 사용자가 카카오 회원인지 확인
+		if (principal.getUser().getOAuthType() == OAuthType.KAKAO) {
+			// 카카오 회원인 경우 비밀번호 고정
+			user.setPassword(kakaoPassword);
+		}
 		// 회원 정보 수정과 동시에 세션 갱신
 		principal.setUser(userService.updateUser(user));
 		return new ResponseDto<>(HttpStatus.OK.value(), user.getUsername() + " 수정 완료");

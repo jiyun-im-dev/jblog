@@ -1,5 +1,6 @@
 package com.yun.JBlogWeb.service;
 
+import com.yun.JBlogWeb.domain.OAuthType;
 import com.yun.JBlogWeb.domain.Role;
 import com.yun.JBlogWeb.domain.User;
 import com.yun.JBlogWeb.persistence.UserRepository;
@@ -40,6 +41,9 @@ public class UserService {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		user.setRole(Role.USER);
+		if (user.getOAuthType() == null) {
+			user.setOAuthType(OAuthType.JBLOG);
+		}
 		userRepository.save(user);
 	}
 

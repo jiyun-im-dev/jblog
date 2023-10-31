@@ -1,6 +1,7 @@
 package com.yun.JBlogWeb.service;
 
 import com.google.gson.Gson;
+import com.yun.JBlogWeb.domain.OAuthType;
 import com.yun.JBlogWeb.domain.Role;
 import com.yun.JBlogWeb.domain.User;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,6 +80,7 @@ public class KakaoLoginService {
 		user.setPassword(kakaoPassword);
 		user.setEmail(email);
 		user.setRole(Role.USER);
+		user.setOAuthType(OAuthType.KAKAO);
 		return user;
 	}
 
