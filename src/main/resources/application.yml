@@ -30,6 +30,14 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 1089517818557-33n2f1j9iqmumfuaqgd61mk94iqmsrvq.apps.googleusercontent.com
+            client-secret: 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
+            scope: email, profile
   # Devtools 설정
   devtools:
     livereload:
