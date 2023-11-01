@@ -15,6 +15,9 @@
     <a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=fa741c1308963740644104948305d803&redirect_uri=http://localhost:8080/oauth/kakao">
       <img height="38px" src="/images/kakao_login_btn.png">
     </a>
+    <a href="../oauth2/authorization/google">
+      <img height="38px" src="/images/google_login_btn.png">
+    </a>
   </form>
 </div>
 
