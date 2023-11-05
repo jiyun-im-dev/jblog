@@ -29,6 +29,9 @@ public class UserController {
 	@Value("${kakao.default.password}")
 	private String kakaoPassword;
 
+	@Value("${google.default.password}")
+	private String googlePassword;
+
 	@GetMapping("/auth/login")
 	public String login() {
 		return "system/login";
@@ -65,6 +68,9 @@ public class UserController {
 		if (principal.getUser().getOAuthType() == OAuthType.KAKAO) {
 			// 카카오 회원인 경우 비밀번호 고정
 			user.setPassword(kakaoPassword);
+		} else if (principal.getUser().getOAuthType() == OAuthType.GOOGLE) {
+			// 구글 회원인 경우 비밀번호 고정
+			user.setPassword(googlePassword);
 		}
 		// 회원 정보 수정과 동시에 세션 갱신
 		principal.setUser(userService.updateUser(user));

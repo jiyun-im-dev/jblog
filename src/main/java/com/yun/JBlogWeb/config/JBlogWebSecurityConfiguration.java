@@ -1,5 +1,6 @@
 package com.yun.JBlogWeb.config;
 
+import com.yun.JBlogWeb.security.OAuth2UserDetailsServiceImpl;
 import com.yun.JBlogWeb.security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -20,27 +20,28 @@ public class JBlogWebSecurityConfiguration extends WebSecurityConfigurerAdapter 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 
+	@Autowired
+	private OAuth2UserDetailsServiceImpl oAuth2UserDetailsService;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Bean
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
 	// 사용자가 입력한 username으로 User 객체를 검색하고 password를 비교한다
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// 인증 없이 접근을 허용하는 경로
 		http.authorizeRequests().antMatchers(
-				"/webjars/**", "/js/**", "/image/**", "/", "/auth/**", "/oauth/**")
+						"/webjars/**", "/js/**", "/image/**", "/", "/auth/**", "/oauth/**")
 				.permitAll();
 		// 나머지 경로는 인증 필요
 		http.authorizeRequests().anyRequest().authenticated();
